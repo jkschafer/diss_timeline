@@ -2,24 +2,20 @@ library(ggplot2)
 library(readr)
 library(tidyverse)
 
-diss_time <- read.csv("Dissertimeline_2021-04-05.csv")
-diss_time <- as_tibble(diss_time)
+diss_time <- read_csv("./Data/Dissertimeline_2021-04-06.csv")
 
-level_order <- c('First_draft', 'Address_Comments', 
-                 'Defense_Date', 'Submission')
-# Order Activity levels
+# Order factor levels
 diss_time$Activity <- factor(diss_time$Activity, 
                              levels = c("Committee_Reads", 
                                         "Committee_Comments", 
-                                        "Fix_Issues", 
-                                        "Hopefully_Done",
-                                        "Zoom_Defense",
+                                        "Fix_Issues",
+                                        "Defense_Date",
                                         "Done"))
 
 diss_time$Project_element <- factor(diss_time$Project_element, 
                              levels = c("First_draft", 
                                         "Address_Comments", 
-                                        "Defense_Date", 
+                                        "Defense", 
                                         "Submission"))
 
 
@@ -33,14 +29,15 @@ plot_gantt <- qplot(ymin = Start,
                     size = I(5)) +
   scale_colour_manual(values = c("grey", "blue", 
                                  "green", "black", 
-                                 "red", "purple")) +
+                                 "red")) +
   coord_flip() +
-  theme_bw() +
   theme(panel.grid = element_blank()) +
   xlab("") +
   ylab("Date") +
   ggtitle("DisserTimeline") +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme_classic(base_size = 20, 
+                base_family = "")
 
 plot_gantt
 
